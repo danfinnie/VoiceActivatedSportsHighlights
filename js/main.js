@@ -7,6 +7,7 @@
 				  window.msSpeechRecognition;
 
 	var $results = $("#results");
+	var $body = $("body");
 
 	if (!SpeechRecognition) {
 		$results.text("Please use a browser w/ speech recognition");
@@ -26,11 +27,15 @@
 			$results.append(" " + ev.results[0][0].transcript);
 
 		recognition.stop();
-	}
+	};
 
 	recognition.onend = function() {
 		recognition.start();
-	}
+	};
+
+	recognition.onsoundstart = function() {
+		$results.append(" *");
+	};
 
 	recognition.start();
 
