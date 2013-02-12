@@ -37,31 +37,17 @@ var Composition = Edge.Composition, Symbol = Edge.Symbol; // aliases for commonl
 
       Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 1000, function(sym, e) {
          sym.stop(); 
-         
-         $('body').one('voice:noise', function() {
-            // play the timeline from the given position (ms or label)
-            sym.play(4000);
-         });
-
       });
       //Edge binding end
 
       Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 4828, function(sym, e) {
          sym.stop(); 
-         
-         $('body').one('voice:noise', function() {
-            sym.play(2000);
-         });
-
       });
       //Edge binding end
 
       Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 4000, function(sym, e) {
          sym.stop(); 
          
-         $('body').one('voice:noise', function() {
-            sym.play();
-         });
 
       });
       //Edge binding end
