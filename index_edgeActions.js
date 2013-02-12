@@ -29,10 +29,8 @@ var Composition = Edge.Composition, Symbol = Edge.Symbol; // aliases for commonl
 
       Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 0, function(sym, e) {
          sym.stop(); 
+         window.sym = this;
          
-         $('body').one('voice:noise', function() {
-            sym.play();
-         });
 
       });
       //Edge binding end
@@ -42,8 +40,52 @@ var Composition = Edge.Composition, Symbol = Edge.Symbol; // aliases for commonl
          
          $('body').one('voice:noise', function() {
             // play the timeline from the given position (ms or label)
+            sym.play(4000);
+         });
+
+      });
+      //Edge binding end
+
+      Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 4828, function(sym, e) {
+         sym.stop(); 
+         
+         $('body').one('voice:noise', function() {
             sym.play(2000);
          });
+
+      });
+      //Edge binding end
+
+      Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 4000, function(sym, e) {
+         sym.stop(); 
+         
+         $('body').one('voice:noise', function() {
+            sym.play();
+         });
+
+      });
+      //Edge binding end
+
+      Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 3460, function(sym, e) {
+         sym.stop();
+
+      });
+      //Edge binding end
+
+      Symbol.bindElementAction(compId, symbolName, "${_Text}", "mouseover", function(sym, e) {
+         $(this).html('<iframe src="https://embed.spotify.com/?uri=spotify:track:4bz7uB4edifWKJXSDxwHcs" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>');
+
+      });
+      //Edge binding end
+
+      Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 6250, function(sym, e) {
+         sym.stop();
+
+      });
+      //Edge binding end
+
+      Symbol.bindTriggerAction(compId, symbolName, "Default Timeline", 1500, function(sym, e) {
+         sym.stop();
 
       });
       //Edge binding end
