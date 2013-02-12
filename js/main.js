@@ -6,10 +6,23 @@
 				  window.oSpeechRecognition || 
 				  window.msSpeechRecognition;
 
-	if (SpeechRecognition) {
-		var recognition = new SpeechRecognition();
-		recognition.maxAlternatives = 5;
-	} else {
-		$("#results").text("Please use a browser w/ speech recognition");
+	var $results = $("#results");
+
+	if (!SpeechRecognition) {
+		$results.text("Please use a browser w/ speech recognition");
+		return;
 	}
+
+	var recognition = new SpeechRecognition();
+	recognition.maxAlternatives = 10;
+
+	recognition.onaudiostart = function() { $results.text("Starting"); }
+	recognition.onnomatch = function() { $results.text("Could not recognize"); }
+	recognition.onerror = function() { $results.text("Error"); }
+	recognition.onresult = function(ev) {
+		if (ev.results.length > 0)
+			$results.html(ev.results[0][0].transcript);
+	}
+
+	recognition.start();
 })();
