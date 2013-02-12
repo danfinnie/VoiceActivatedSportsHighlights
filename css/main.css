@@ -98,6 +98,22 @@ body {
 	background-position: center 50px;
 }
 
+#myytplayer {
+	position: absolute;
+	top: 212px;
+	left: 615px;
+}
+
+#arms {
+	background: url(../images/Living_room22.png);
+	width: 800px;
+	height: 600px;
+	z-index: 1000;
+	position: relative;
+	top: -480px;
+	margin: auto;
+}
+
 #Stage {
 	position: absolute;
 	top: 120px;
