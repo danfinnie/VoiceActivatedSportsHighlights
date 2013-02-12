@@ -15,14 +15,24 @@
 
 	var recognition = new SpeechRecognition();
 	recognition.maxAlternatives = 10;
+	recognition.continuous = true;
+	recognition.interimResults = true;
 
-	recognition.onaudiostart = function() { $results.text("Starting"); }
-	recognition.onnomatch = function() { $results.text("Could not recognize"); }
-	recognition.onerror = function() { $results.text("Error"); }
+	// recognition.onaudiostart = function() { $results.text("Starting"); }
+	// recognition.onnomatch = function() { $results.text("Could not recognize"); }
+	// recognition.onerror = function() { $results.append("err"); recognition.start(); }
 	recognition.onresult = function(ev) {
 		if (ev.results.length > 0)
-			$results.html(ev.results[0][0].transcript);
+			$results.append(" " + ev.results[0][0].transcript);
+
+		recognition.stop();
+	}
+
+	recognition.onend = function() {
+		recognition.start();
 	}
 
 	recognition.start();
+
+	window.r = recognition;
 })();
