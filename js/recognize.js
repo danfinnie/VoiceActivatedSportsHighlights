@@ -43,7 +43,12 @@ $(function() {
 
 		recognition.stop();
 	};
-
+	
+	recognition.onerror = function(ev, a) {
+		console.log(ev);
+		console.log(a);
+		$body.trigger("voice:error", [a]);
+	};
 
 	recognition.onend = function() {
 		recognition.start();
