@@ -43,7 +43,7 @@ $(function() {
 		window.ytplayer.pauseVideo();
 	});
 
-	$('body').on('voice:word:action', function() {
+	$('body').on('voice:word:sound', function() {
 		$("#myytplayer").css({"top": "212px"});
 		window.ytplayer.playVideo();
 	});
