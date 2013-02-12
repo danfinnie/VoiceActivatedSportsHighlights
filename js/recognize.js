@@ -12,6 +12,20 @@ $(function() {
 		return;
 	}
 
+	// Hash of words to their most recent usages to enable ignoring duplicates that
+	// arise.
+	// TODO: Garbage collect array elements that lasted are before the timeout.
+	var recentWords = {};
+	function registerPotentialWord(word) {
+		var time = new Date().getTime() / 1000;
+		var cutoffTime = time - 5;
+		if(!recentWords.hasOwnProperty(word) || recentWords[word] < cutoffTime) {
+			recentWords[word] = time;
+			$body.trigger("voice:word", [word]);
+			$body.trigger("voice:word:"+word);
+		}
+	}
+
 	var recognition = new SpeechRecognition();
 	recognition.maxAlternatives = 20;
 	recognition.continuous = true;
@@ -22,7 +36,7 @@ $(function() {
 			var str = utterance.transcript.trim().toLowerCase();
 			var words = str.split(" ");
 			$.each(words, function(j, word) {
-				$body.trigger("voice:potential-word", [word]);
+				registerPotentialWord(word);
 			});
 			
 		});
@@ -30,19 +44,6 @@ $(function() {
 		recognition.stop();
 	};
 
-	// Hash of words to their most recent usages to enable ignoring duplicates that
-	// arise.
-	// TODO: Garbage collect array elements that lasted are before the timeout.
-	var recentWords = {};
-	$body.on("voice:potential-word", function(ev, word) {
-		var time = new Date().getTime() / 1000;
-		var cutoffTime = time - 5;
-		if(!recentWords.hasOwnProperty(word) || recentWords[word] < cutoffTime) {
-			recentWords[word] = time;
-			$body.trigger("voice:word", [word]);
-			$body.trigger("voice:word:"+word);
-		}
-	});
 
 	recognition.onend = function() {
 		recognition.start();
