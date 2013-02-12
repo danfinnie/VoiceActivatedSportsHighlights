@@ -100,7 +100,8 @@ body {
 
 #myytplayer {
 	position: absolute;
-	top: 212px;
+	/*top: 212px;*/
+	top: 1000px;
 	left: 615px;
 }
 
