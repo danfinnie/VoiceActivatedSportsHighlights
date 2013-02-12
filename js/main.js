@@ -1,16 +1,32 @@
 // Examples copied from http://www.adobe.com/devnet/html5/articles/voice-to-drive-the-web-introduction-to-speech-api.html
-(function() {
+$(function() {
+	var $results = $("#results");
+	var $body = $("body");
+
+	$body.on("voice:noise", function() {
+		$results.append(" *");
+	});
+
+	$body.on("voice:word", function(ev, word) {
+		$results.append(" " + word);
+	});
+
+	$body.on("voice:error", function(ev, err) {
+		$results.html(err);
+	});
+});
+
+$(function() {
 	var SpeechRecognition = window.SpeechRecognition || 
 				  window.webkitSpeechRecognition || 
 				  window.mozSpeechRecognition || 
 				  window.oSpeechRecognition || 
 				  window.msSpeechRecognition;
 
-	var $results = $("#results");
 	var $body = $("body");
 
 	if (!SpeechRecognition) {
-		$results.text("Please use a browser w/ speech recognition");
+		$body.trigger("voice:error", ["Please use a browser w/ speech recognition"]);
 		return;
 	}
 
@@ -23,8 +39,14 @@
 	// recognition.onnomatch = function() { $results.text("Could not recognize"); }
 	// recognition.onerror = function() { $results.append("err"); recognition.start(); }
 	recognition.onresult = function(ev) {
-		if (ev.results.length > 0)
-			$results.append(" " + ev.results[0][0].transcript);
+		$.each(ev.results[0], function(i, utterance) {
+			var str = utterance.transcript.trim();
+			var words = str.split(" ");
+			$.each(words, function(j, word) {
+				$body.trigger("voice:word", [word]);
+			});
+			
+		});
 
 		recognition.stop();
 	};
@@ -34,10 +56,8 @@
 	};
 
 	recognition.onsoundstart = function() {
-		$results.append(" *");
+		$body.trigger("voice:noise");
 	};
 
 	recognition.start();
-
-	window.r = recognition;
-})();
+});
