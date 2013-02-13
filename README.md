@@ -1,63 +1,38 @@
-# [HTML5 Boilerplate](http://html5boilerplate.com)
+# Voice Activated Sports Highlights
 
-HTML5 Boilerplate is a professional front-end template for building fast,
-robust, and adaptable web apps or sites.
+The result of my employer, [http://noisenewyork.com/](noise)'s one-day internal hackathon, this project uses your voice to control a presentation, in this case a sports highlight.  This is a collaborative project between Stephan Alber ([https://twitter.com/franci_de](@franci_de)) and myself.
 
-This project is the product of many years of iterative development and combined
-community knowledge. It does not impose a specific development philosophy or
-framework, so you're free to architect your code in the way that you want.
+## Usage
 
-* Source: [https://github.com/h5bp/html5-boilerplate](https://github.com/h5bp/html5-boilerplate)
-* Homepage: [http://html5boilerplate.com](http://html5boilerplate.com)
-* Twitter: [@h5bp](http://twitter.com/h5bp)
+Before I get this hosted somewhere, here are the steps to use this demo:
 
+1. Install a browser with support for the W3 Web Speech API.  As of February 2013, I believe that Google Chrome beta is the only browser with this API.
+2. Clone this repository into some web-accessible location.
+3. Make your browser always allow microphone access for this demo.  For Google Chrome, this means that you *must* access the page over SSL with a trusted certificate.  If you're on a Mac but running this demo from localhost, generate a self-signed certificate, navigate to the page with Safari and, when the certificate error pops up, click "View Certificate" and select "Always Trust."
+4. Load the page in your browser and say the following commands to navigate through the presentation.  We recommend going through in order the first time and then you can jump around, just make sure to say "Blackout" after "Sound":
+    1. "Set"
+    2. "Hike"
+    3. "Halftime"
+    4. "Sound" (will play a YouTube video)
+    5. "Blackout" (you might need to mute your audio from the YouTube video for this to work)
+    6. "Hike"
+    7. "Throw"
+    8. "Catch"
+    9. "Chair" (this is a little easter egg)
 
-## Quick start
+## Where's the Code?
 
-Choose one of the following options:
+Every project has a bunch of files that do nothing and a couple files that do something.  Here are the important files for this project:
 
-1. Download the latest stable release from
-   [html5boilerplate.com](http://html5boilerplate.com/) or a custom build from
-   [Initializr](http://www.initializr.com).
-2. Clone the git repo — `git clone
-   https://github.com/h5bp/html5-boilerplate.git` - and checkout the tagged
-   release you'd like to use.
+### [https://github.com/danfinnie/VoiceActivatedSportsHighlights/blob/master/js/recognize.js](recognize.js)
 
+recognize.js is a wrapper around the Web Speech API that makes it easier to use for the purposes of speaking commands.  It continually listens for audio and fires events when it hears words.  These are the events it fires (all fire on the `body` tag):
 
-## Features
+* **voice:error** is fired when there was an error activating the Web Speech API (most likely it isn't supported by the current browser) or for other miscalleanous errors.  The first parameter to the event is the reason for the error.
+* **voice:noise** is fired when any type of noise above the background level is detected.  This can be used for advancing slides every clap, for instance.  This event has some problems and right now, due to the internals of the Web Speech API, the event will only fire once per recognized utterance (sequence of words).  For instance if you clap three times in a row, only one event will be fired.  If you clap, say a word, and clap again, 2 noise events will be fired.
+* **voice:word** is fired when a word is recognized.  The first parameter to the event will be the word that was found.  Note that for every word you actually say, up to 10 of these events will be fired because we pull all possible recognition alternatives from the Web Speech API -- for instance, if you say "throw," events will probably be fired for "thorough", "throw", and "through."  So try and make your commands listen for distinctive words!  Also, because we are using the continual mode of the Web Speech API, recongize.js will ignore repeated instances of a word that happen within 5 seconds of each other.  So don't try for that.
+* **voice:word:<word>** (where <word> is the word that was recognized) is fired whenever `voice:word` is fired, but allows the user of the API to write cleaner code instead of subscribing to the `voice:word` event and having an if statement for the word.
 
-* HTML5 ready. Use the new elements with confidence.
-* Cross-browser compatible (Chrome, Opera, Safari, Firefox 3.6+, IE6+).
-* Designed with progressive enhancement in mind.
-* Includes [Normalize.css](http://necolas.github.com/normalize.css/) for CSS
-  normalizations and common bug fixes.
-* The latest [jQuery](http://jquery.com/) via CDN, with a local fallback.
-* The latest [Modernizr](http://modernizr.com/) build for feature detection.
-* IE-specific classes for easier cross-browser control.
-* Placeholder CSS Media Queries.
-* Useful CSS helpers.
-* Default print CSS, performance optimized.
-* Protection against any stray `console.log` causing JavaScript errors in
-  IE6/7.
-* An optimized Google Analytics snippet.
-* Apache server caching, compression, and other configuration defaults for
-  Grade-A performance.
-* Cross-domain Ajax and Flash.
-* "Delete-key friendly." Easy to strip out parts you don't need.
-* Extensive inline and accompanying documentation.
+### [https://github.com/danfinnie/VoiceActivatedSportsHighlights/blob/master/js/main.js](main.js)
 
-
-## Documentation
-
-Take a look at the [documentation table of
-contents](/h5bp/html5-boilerplate/blob/master/doc/TOC.md). This
-documentation is bundled with the project, which makes it readily available for
-offline reading and provides a useful starting point for any documentation
-you want to write about your project.
-
-
-## Contributing
-
-Anyone and everyone is welcome to
-[contribute](/h5bp/html5-boilerplate/blob/master/CONTRIBUTING.md). Hundreds
-of developers have helped make the HTML5 Boilerplate what it is today.
+main.js uses the recognize.js API to bind the commands to actions.  We used Adobe Edge to make all of the animations in one big movie, so main.js essentially just sets the time position within that movie.  That mysterious `window.sym` variable is set within an Adobe Edge trigger and is a hack (but this is a hackathon!).
