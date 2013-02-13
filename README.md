@@ -36,3 +36,8 @@ recognize.js is a wrapper around the Web Speech API that makes it easier to use 
 ### [main.js](https://github.com/danfinnie/VoiceActivatedSportsHighlights/blob/master/js/main.js)
 
 main.js uses the recognize.js API to bind the commands to actions.  We used Adobe Edge to make all of the animations in one big movie, so main.js essentially just sets the time position within that movie.  That mysterious `window.sym` variable is set within an Adobe Edge trigger and is a hack (but this is a hackathon!).
+
+## Other Links
+
+* The offical [W3 Web Speech API Specification](https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html#speechreco-section)
+* An [Adobe tutorial on using the Web Speech API](http://www.adobe.com/devnet/html5/articles/voice-to-drive-the-web-introduction-to-speech-api.html)
