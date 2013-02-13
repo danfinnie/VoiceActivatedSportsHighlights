@@ -24,7 +24,7 @@ Before I get this hosted somewhere, here are the steps to use this demo:
 
 Every project has a bunch of files that do nothing and a couple files that do something.  Here are the important files for this project:
 
-### [https://github.com/danfinnie/VoiceActivatedSportsHighlights/blob/master/js/recognize.js](recognize.js)
+### recognize.js
 
 recognize.js is a wrapper around the Web Speech API that makes it easier to use for the purposes of speaking commands.  It continually listens for audio and fires events when it hears words.  These are the events it fires (all fire on the `body` tag):
 
@@ -33,6 +33,6 @@ recognize.js is a wrapper around the Web Speech API that makes it easier to use 
 * **voice:word** is fired when a word is recognized.  The first parameter to the event will be the word that was found.  Note that for every word you actually say, up to 10 of these events will be fired because we pull all possible recognition alternatives from the Web Speech API -- for instance, if you say "throw," events will probably be fired for "thorough", "throw", and "through."  So try and make your commands listen for distinctive words!  Also, because we are using the continual mode of the Web Speech API, recongize.js will ignore repeated instances of a word that happen within 5 seconds of each other.  So don't try for that.
 * **voice:word:<word>** (where <word> is the word that was recognized) is fired whenever `voice:word` is fired, but allows the user of the API to write cleaner code instead of subscribing to the `voice:word` event and having an if statement for the word.
 
-### [https://github.com/danfinnie/VoiceActivatedSportsHighlights/blob/master/js/main.js](main.js)
+### main.js
 
 main.js uses the recognize.js API to bind the commands to actions.  We used Adobe Edge to make all of the animations in one big movie, so main.js essentially just sets the time position within that movie.  That mysterious `window.sym` variable is set within an Adobe Edge trigger and is a hack (but this is a hackathon!).
