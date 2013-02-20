@@ -7,7 +7,7 @@ The result of my employer, [noise](http://noisenewyork.com/)'s one-day internal 
 Before I get this hosted somewhere, here are the steps to use this demo:
 
 1. Install a browser with support for the W3 Web Speech API.  As of February 2013, I believe that Google Chrome beta is the only browser with this API.
-2. Clone this repository into some web-accessible location.
+2. Clone this repository into some web-accessible location or use the [GitHub hosted version](https://danfinnie.github.com/VoiceActivatedSportsHighlights/index.html).
 3. Make your browser always allow microphone access for this demo.  For Google Chrome, this means that you *must* access the page over SSL with a trusted certificate.  If you're on a Mac but running this demo from localhost, generate a self-signed certificate, navigate to the page with Safari and, when the certificate error pops up, click "View Certificate" and select "Always Trust."
 4. Load the page in your browser and say the following commands to navigate through the presentation.  We recommend going through in order the first time and then you can jump around, just make sure to say "Blackout" after "Sound":
     1. "Set"
